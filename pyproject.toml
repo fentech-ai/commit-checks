@@ -30,8 +30,7 @@ profile = "black"
 module = "tests.*"
 
 [tool.coverage.run]
-omit = ["check_print/__main__.py"]
-omit = ["check_variable_names/__main__.py"]
+omit = ["check_print/__main__.py", "check_variable_names/__main__.py"]
 
 [tool.tox]
 legacy_tox_ini = """

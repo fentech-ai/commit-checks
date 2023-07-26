@@ -7,7 +7,8 @@ from typing import List, Optional, Sequence
 
 logger = logging.getLogger()
 
-pattern = re.compile(r'^(\ )*([a-zA-Z])[\w\d]{0,2}[\s]*(:[^=]*)*=')
+pattern = re.compile(r"^(\ )*([a-zA-Z])[\w\d]{0,2}[\s]*(:[^=]*)*=")
+
 
 def check_var_file(file: str) -> bool:
     success = True
@@ -15,8 +16,10 @@ def check_var_file(file: str) -> bool:
         for idx, line in enumerate(file_one):
             occurence = pattern.search(line)
             if occurence:
-                logger.warning(f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}")
-                logger.warning(f"          L{idx}: {line}")                
+                logger.warning(
+                    f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}"
+                )
+                logger.warning(f"          L{idx}: {line}")
                 success = False
     return success
 
@@ -39,13 +42,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     parser = argparse.ArgumentParser()
     parser.add_argument("filenames", nargs="*")
-    parser.add_argument("--no-fix-files", action="store_false")
     args = parser.parse_args(argv)
 
     if not args.filenames:
         raise ValueError(f"Empty file list")
 
-    return check_var(args.filenames, args.no_fix_files)
+    return check_var(args.filenames)
 
 
 if __name__ == "__main__":  # pragma: no cover
