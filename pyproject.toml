@@ -21,7 +21,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 check-print = "check_print.main:main"
-check_variable_names = "check_variable_names.main:main"
+check-variable-names = "check_variable_names.main:main"
 
 [tool.isort]
 profile = "black"
