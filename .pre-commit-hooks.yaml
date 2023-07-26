@@ -1,0 +1,14 @@
+- id: check-print
+  name: check-print
+  description: Prevents prints to subsist in the files
+  entry: check-print
+  language: python
+  pass_filenames: true
+  always_run: true
+- id: check-variable-names
+  name: check-variable-names
+  description: Raise errors for var names <= 3 char
+  entry: check-variable-names
+  language: python
+  pass_filenames: true
+  always_run: true

@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "commit-checks"
+version = "0.1.0"
+description = "Check for print statements"
+authors = ["Diviyan Kalainathan"]
+license = "Apache License 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+argparse = "^1.4.0"
+pre-commit = "^2.16"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+check-print = "check_print.main:main"
+check_variable_names = "check_variable_names.main:main"
+
+[tool.isort]
+profile = "black"
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+
+[tool.coverage.run]
+omit = ["check_print/__main__.py"]
+omit = ["check_variable_names/__main__.py"]
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = py37, py38, py39, py310, 311
+
+[testenv]
+deps = pytest
+commands = pytest
+
+"""
