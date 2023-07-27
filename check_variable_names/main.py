@@ -17,7 +17,7 @@ def check_var_file(file: str) -> bool:
             occurence = pattern.search(line)
             if occurence:
                 logger.warning(
-                    f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}"
+                    f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()}:{idx} in {file}"
                 )
                 logger.warning(f"          L{idx}: {line}")
                 success = False
