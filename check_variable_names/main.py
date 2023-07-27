@@ -7,7 +7,7 @@ from typing import List, Optional, Sequence
 
 logger = logging.getLogger()
 
-pattern = re.compile(r"^(\ )*([a-zA-Z])[\w\d]{0,2}[\s]*(:[^=]*)*=")
+pattern = re.compile(r"^(\ )*([a-zA-Z])[\w\d]{0,1}[\s]*(:[^=]*)*=")
 
 
 def check_var_file(file: str) -> bool:
