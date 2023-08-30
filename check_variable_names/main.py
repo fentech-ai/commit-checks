@@ -25,7 +25,7 @@ def check_var_file(file: str) -> bool:
                     )
                     logger.warning(f"          L{idx}: {line}")
                     success = False
-            opened_count = opened_count + len(open_pattern.findall()) - len(close_pattern.findall())
+            opened_count = opened_count + len(open_pattern.findall(line)) - len(close_pattern.findall(line))
     return success
 
 
