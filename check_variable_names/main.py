@@ -8,19 +8,24 @@ from typing import List, Optional, Sequence
 logger = logging.getLogger()
 
 pattern = re.compile(r"^(\ )*([a-zA-Z])[\w\d]{0,1}[\s]*(:[^=]*)*=")
+open_pattern = re.compile(r"""(?:(?<!")\(|(?<!")\[)(?=(?:[^"]*"[^"]*")*[^"]*$)""")
+close_pattern = re.compile(r"""(?:(?<!")\)|(?<!")\])(?=(?:[^"]*"[^"]*")*[^"]*$)""")
 
 
 def check_var_file(file: str) -> bool:
     success = True
+    opened_count = 0
     with open(file, "r") as file_one:
         for idx, line in enumerate(file_one):
-            occurence = pattern.search(line)
-            if occurence:
-                logger.warning(
-                    f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}:{idx}"
-                )
-                logger.warning(f"          L{idx}: {line}")
-                success = False
+            if opened_count == 0:
+                occurence = pattern.search(line)
+                if occurence:
+                    logger.warning(
+                        f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}:{idx}"
+                    )
+                    logger.warning(f"          L{idx}: {line}")
+                    success = False
+            opened_count = opened_count + len(open_pattern.findall()) - len(close_pattern.findall())
     return success
 
 
