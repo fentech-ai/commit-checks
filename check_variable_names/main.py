@@ -18,13 +18,14 @@ def check_var_file(file: str) -> bool:
     with open(file, "r") as file_one:
         for idx, line in enumerate(file_one):
             if opened_count == 0:
-                occurence = pattern.search(line)
-                if occurence:
-                    logger.warning(
-                        f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}:{idx}"
-                    )
-                    logger.warning(f"          L{idx}: {line}")
-                    success = False
+                if not ("ignore: check-variable-name" in line or "ignore:check-variable-name" in line):
+                    occurence = pattern.search(line)
+                    if occurence:
+                        logger.warning(
+                            f"[ERROR] Bad variable name: {occurence.group()[:-1].strip()} in {file}:{idx}"
+                        )
+                        logger.warning(f"          L{idx}: {line}")
+                        success = False
             opened_count = opened_count + len(open_pattern.findall(line)) - len(close_pattern.findall(line))
     return success
 
