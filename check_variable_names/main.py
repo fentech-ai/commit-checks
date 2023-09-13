@@ -17,6 +17,8 @@ def check_var_file(file: str) -> bool:
     opened_count = 0
     with open(file, "r") as file_one:
         for idx, line in enumerate(file_one):
+            if "ignore-file: check-variable-name" in line or "ignore-file:check-variable-name" in line:
+                return True 
             if opened_count == 0:
                 if not ("ignore: check-variable-name" in line or "ignore:check-variable-name" in line):
                     occurence = pattern.search(line)
@@ -51,7 +53,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     if not args.filenames:
-        raise ValueError(f"Empty file list")
+        print("Empty file list")
+        return 0
 
     return check_var(args.filenames)
 

@@ -53,7 +53,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     if not args.filenames:
-        raise ValueError(f"Empty file list")
+        print("Empty file list")
+        return 0
 
     return check_fix_print(args.filenames, args.no_fix_files)
 
