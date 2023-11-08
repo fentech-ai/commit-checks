@@ -7,13 +7,23 @@ from typing import List, Optional, Sequence
 
 logger = logging.getLogger()
 
+pattern = re.compile(r"\bprint\(")
+
 
 def fix_file(file: str) -> None:
+
     logging.warning(f"Fixing {file}")
     with open("tmp.py", "w") as output:
         with open(file, "r") as file_one:
             for line in file_one:
-                if not re.search("print", line):
+                if "ignore-file: check-print" in line or "ignore-file:check-print" in line:
+                    return
+
+                if "ignore: check-print" in line or "ignore:check-print" in line:
+                    occurence = False
+                else:
+                    occurence = pattern.search(line)
+                if not occurence:
                     output.write(line)
 
     os.replace("tmp.py", file)
@@ -23,7 +33,12 @@ def check_print_file(file: str) -> bool:
     success = True
     with open(file, "r") as file_one:
         for idx, line in enumerate(file_one):
-            if re.search("print", line):
+            if "ignore-file: check-print" in line or "ignore-file:check-print" in line:
+                return True
+
+            if "ignore: check-print" in line or "ignore:check-print" in line:
+                continue
+            if pattern.search("print", line):
                 logger.warning(f"[ERROR] detected print : {file} : L{idx}: {line}")
                 success = False
     return success
